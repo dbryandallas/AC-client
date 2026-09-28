@@ -1463,6 +1463,30 @@
       outline: 2.5px solid var(--blue);
       outline-offset: 2px;
     }
+
+
+    /* ---------- Mobile CTA priority ----------
+       Mobile only: hero copy -> lead form -> phone box -> weather.
+       Desktop markup/layout is restored unchanged by the script below. */
+    @media (max-width: 900px) {
+      .hero-grid > .form-section {
+        padding: 8px 0 0;
+        background: none;
+      }
+
+      .hero-grid > .form-section > .wrap {
+        padding: 0;
+      }
+
+      .hero-sidebar .hero-call-box {
+        order: 1;
+      }
+
+      .hero-sidebar .weather-card {
+        order: 2;
+      }
+    }
+
   </style>
 </head>
 
@@ -1504,9 +1528,7 @@
           <div class="region-badges" id="regionBadges" aria-hidden="true"></div>
           <p class="region-coverage-line" id="regionCoverageLine"></p>
           <p class="support-line">
-            Request help or a free estimate from a local heating and
-            air-conditioning professional. Answer a few quick questions and
-            get matched in minutes.
+            Get matched with a local, licensed HVAC pro in about 60 seconds.
           </p>
           <div class="hero-badges">
             <span class="hero-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
@@ -2790,6 +2812,38 @@
     document.addEventListener('fullscreenchange', syncFocusToggleUI);
     document.addEventListener('webkitfullscreenchange', syncFocusToggleUI);
   </script>
+
+
+  <script>
+    // Mobile-only layout priority: put the existing lead form above the
+    // phone box and weather card without duplicating or rebuilding anything.
+    (function () {
+      const breakpoint = window.matchMedia('(max-width: 900px)');
+      const heroGrid = document.querySelector('.hero-grid');
+      const heroCopy = document.querySelector('.hero-copy');
+      const heroSidebar = document.querySelector('.hero-sidebar');
+      const heroSection = document.querySelector('.hero');
+      const formSection = document.querySelector('.form-section');
+
+      if (!heroGrid || !heroCopy || !heroSidebar || !heroSection || !formSection) return;
+
+      function applyMobileOrder(e) {
+        if (e.matches) {
+          // Mobile: copy -> form -> sidebar. CSS makes sidebar phone -> weather.
+          heroCopy.insertAdjacentElement('afterend', formSection);
+          formSection.insertAdjacentElement('afterend', heroSidebar);
+        } else {
+          // Desktop: restore the original document structure exactly.
+          heroGrid.appendChild(heroSidebar);
+          heroSection.insertAdjacentElement('afterend', formSection);
+        }
+      }
+
+      applyMobileOrder(breakpoint);
+      breakpoint.addEventListener('change', applyMobileOrder);
+    })();
+  </script>
+
 </body>
 
 </html>
