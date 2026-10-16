@@ -63,7 +63,7 @@ function update(){
  clarify.replaceChildren();
  clarify.style.display=cat?'block':'none';clarify.required=!!cat;
  if(cat){clarify.add(new Option('Choose the specific service you actually need',''));const seen=new Set();for(const [label,id] of choices[cat])if(!seen.has(label)){clarify.add(new Option(label,id));seen.add(label)}clarify.add(new Option('None of these describe my request','unsupported'));}
- notice.textContent='Free estimates. No obligation to hire.';
+ notice.textContent='Get up to 3 Free estimates. No obligation to hire.';
 }
 service.addEventListener('change',update);update();
 form.addEventListener('submit',async e=>{
