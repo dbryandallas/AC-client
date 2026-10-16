@@ -119,6 +119,7 @@ async function networxRequest(params, retries = 1) {
       parsed = { raw: response.data };
     }
 
+    if (response.status >= 400) console.warn('[Networx] Rejection fields:', Object.keys(parsed)); 
     return { httpStatus: response.status, data: parsed };
   } catch (err) {
     if (
