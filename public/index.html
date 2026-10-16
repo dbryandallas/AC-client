@@ -81,7 +81,7 @@ form.addEventListener('submit',async e=>{
  const payload={f_name:full.shift(),l_name:full.join(' '),zipcode:form.elements.zipcode.value.trim(),task_id,phone:form.elements.phone.value.trim(),email:form.elements.email.value.trim(),address:form.elements.address.value.trim(),tcpa_compliance_text:consentText,cert_url};
  btn.disabled=true;notice.textContent='Sending your request…';
  try{
- const res=await fetch('/api/leads/post',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+ const res=await fetch('/api/leads/ping-post',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
  const result=await res.json();
  // A 2xx HTTP response alone does NOT mean Networx accepted the lead.
  const text=JSON.stringify(result).toLowerCase();
